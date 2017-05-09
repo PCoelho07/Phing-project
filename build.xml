@@ -11,8 +11,6 @@
         <phingcall target="structure"></phingcall>
         <phingcall target="composer"></phingcall>
         <phingcall target="phpunit"></phingcall>
-        <phingcall target="metrics"></phingcall>
-        <phingcall target="phpdoc"></phingcall>
         <phingcall target="copylogs"></phingcall>
         <phingcall target="makedist"></phingcall>
     </target>
@@ -37,13 +35,6 @@
         <exec command="composer install" logoutput="true" escape="false" />
     </target>
     
-    <!-- = PHPDoc = -->
-    <target name="phpdoc">
-        <echo msg="Generating API docs ..." />
-        <exec
-            command="vendor/bin/phpdoc.php --progressbar --sourcecode"
-            logoutput="true" escape="false" />
-    </target>
     
     <!-- Arquivo de distribuição -->
     <target name="makedist">
