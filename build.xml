@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Gerencia - AoVivo" basedir="." default="build">
+    <property name="dir-build" value="./build" />
+    <property name="dir-tests" value="./tests" />
+    <property name="dir-tests-logs" value="./tests/_reports" />
+    <property name="dir-logs" value="./build/logs" />
+    <property name="dir-app" value="./libs" />
+    
+    <target name="build">
+        <phingcall target="clean"></phingcall>
+        <phingcall target="structure"></phingcall>
+        <phingcall target="composer"></phingcall>
+        <phingcall target="phpunit"></phingcall>
+        <phingcall target="metrics"></phingcall>
+        <phingcall target="phpdoc"></phingcall>
+        <phingcall target="copylogs"></phingcall>
+        <phingcall target="makedist"></phingcall>
+    </target>
+    
+    
+    <!-- = Clean Task = -->    
+    <target name="clean">
+        <echo msg="Limpando diretorio da build ..." />
+        <delete dir="${dir-build}" />
+        <echo msg="Limpando resultado de testes ..." />
+        <delete>
+        	<fileset dir="${dir-tests}/_reports/">
+        		<include name="**/*.php" />
+        	</fileset>
+        </delete>
+    </target>
+
+    
+    <!-- = Composer = -->
+    <target name="composer">
+        <echo msg="Running composer install ..." />
+        <exec command="composer install" logoutput="true" escape="false" />
+    </target>
+    
+    <!-- = PHPDoc = -->
+    <target name="phpdoc">
+        <echo msg="Generating API docs ..." />
+        <exec
+            command="vendor/bin/phpdoc.php --progressbar --sourcecode"
+            logoutput="true" escape="false" />
+    </target>
+    
+    <!-- Arquivo de distribuição -->
+    <target name="makedist">
+        <echo msg="Moving files to distribution directory ..." />
+        <copy todir="${dir-build}/dist/">
+            <fileset dir=".">
+                <exclude name="build/**" />
+                <exclude name="tests/**" />
+                <exclude name="composer**" />
+                <exclude name="phpunit**" />
+                <exclude name="phpdoc**" />
+                <include name="**" />
+            </fileset>
+        </copy>
+        <tar destfile="${dir-build}/dist.tar.gz" compression="gzip">
+            <fileset dir="${dir-build}/dist">
+                <include name="**" />
+            </fileset>
+        </tar>
+    </target>
+    
+    <target name="structure">
+        <echo msg="Creating structure ..." />
+        <mkdir dir="${dir-build}" />
+        <mkdir dir="${dir-build}/docs" />
+        <mkdir dir="${dir-logs}" />
+        <mkdir dir="${dir-build}/dist" />
+    </target>
+    
+    <!-- = PHPUnit = -->
+    <target name="phpunit">
+        <echo msg="Running unit tests in ${dir-tests} ..." />
+        <exec command="vendor/bin/phpunit" logoutput="true" escape="false" />
+    </target>
+
+    <!-- = Cópia de arquivos de Log = -->
+    <target name="copylogs">
+        <echo msg="Copiando arquivos de log para o diretório build ..." />
+        <copy todir="${dir-logs}">
+            <fileset dir="${dir-tests-logs}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+</project>
