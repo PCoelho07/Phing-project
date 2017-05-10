@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="Gerencia - AoVivo" basedir="." default="generateKeyLaravel">
+<project name="Gerencia - AoVivo" basedir="." default="Testes">
 
-    <echo msg="Executando testes unitários.."/>
-    <phpunit  haltonfailure="true" haltonerror="true" printsummary="true">
-        <formatter type="plain" usefile="false"/>
-        <batchtest>
-            <fileset dir="tests">
-                <include name="**/*Test*.php"/>
-            </fileset>
-        </batchtest>
-    </phpunit>
+    <target name="Testes">
+        <echo msg="Executando testes unitários.."/>
+        <phpunit  haltonfailure="true" haltonerror="true" printsummary="true">
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="tests">
+                    <include name="**/*Test*.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>        
+    </target>
 
     <phplint haltonfailure="true">
         <fileset dir=".">
             <include name="app/*.php"></include>
         </fileset>
     </phplint>
-
-    
-    <target name="generateKeyLaravel">
-        <exec command="php artisan key:generate" logoutput="true" escape="false"/>
-    </target>
 
 </project>
