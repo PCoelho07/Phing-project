@@ -6,77 +6,18 @@
     <property name="dir-logs" value="./build/logs" />
     <property name="dir-app" value="./libs" />
     
+    <echo msg="Executando testes unitários.."/>
+    <phpunit  haltonfailure="true" haltonerror="true" printsummary="true">
+        <formatter type="plain" usefile="false"/>
+        <batchtest>
+            <fileset dir="tests">
+                <include name="**/*Test*.php"/>
+            </fileset>
+        </batchtest>
+    </phpunit>
+
     <target name="build">
-        <echo msg="Começou!!"/>
-        <!-- <phingcall target="clean"></phingcall>
-        <phingcall target="structure"></phingcall> -->
-        <!-- <phingcall target="composer"></phingcall> -->
-        <phingcall target="phpunit"></phingcall>
-        <!-- <phingcall target="makedist"></phingcall> -->
-    </target>
-    
-    
-    <!-- = Clean Task = -->    
-    <target name="clean">
-        <echo msg="Limpando diretorio da build ..." />
-        <delete dir="${dir-build}" />
-        <echo msg="Limpando resultado de testes ..." />
-        <delete>
-        	<fileset dir="${dir-tests}/_reports/">
-        		<include name="**/*.php" />
-        	</fileset>
-        </delete>
+        <echo msg="Começou"/>
     </target>
 
-    
-    <!-- = Composer = -->
-    <target name="composer">
-        <echo msg="Running composer install ..." />
-        <exec command="composer install" logoutput="true" escape="false" />
-    </target>
-    
-    
-    <!-- Arquivo de distribuição -->
-    <target name="makedist">
-        <echo msg="Moving files to distribution directory ..." />
-        <copy todir="${dir-build}/dist/">
-            <fileset dir=".">
-                <exclude name="build/**" />
-                <exclude name="tests/**" />
-                <exclude name="composer**" />
-                <exclude name="phpunit**" />
-                <exclude name="phpdoc**" />
-                <include name="**" />
-            </fileset>
-        </copy>
-        <tar destfile="${dir-build}/dist.tar.gz" compression="gzip">
-            <fileset dir="${dir-build}/dist">
-                <include name="**" />
-            </fileset>
-        </tar>
-    </target>
-    
-    <target name="structure">
-        <echo msg="Criando estrutura ..." />
-        <mkdir dir="${dir-build}" />
-        <mkdir dir="${dir-build}/docs" />
-        <mkdir dir="${dir-logs}" />
-        <mkdir dir="${dir-build}/dist" />
-    </target>
-    
-    <!-- = PHPUnit = -->
-    <target name="phpunit">
-        <echo msg="Running unit tests in ${dir-tests} ..." />
-        <exec command="vendor/bin/phpunit" logoutput="true" escape="false" />
-    </target>
-
-    <!-- = Cópia de arquivos de Log = -->
-    <target name="copylogs">
-        <echo msg="Copiando arquivos de log para o diretório build ..." />
-        <copy todir="${dir-logs}">
-            <fileset dir="${dir-tests-logs}">
-                <include name="**" />
-            </fileset>
-        </copy>
-    </target>
 </project>
