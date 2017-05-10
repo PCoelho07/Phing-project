@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="Gerencia - AoVivo" basedir="." default="build">
-    <property name="dir-build" value="/build" />
-    <property name="dir-tests" value="/tests" />
-    <property name="dir-tests-logs" value="./tests/_reports" />
-    <property name="dir-logs" value="./build/logs" />
-    <property name="dir-app" value="./libs" />
-    
+<project name="Gerencia - AoVivo" basedir="." default="">
+
     <echo msg="Executando testes unitários.."/>
     <phpunit  haltonfailure="true" haltonerror="true" printsummary="true">
         <formatter type="plain" usefile="false"/>
@@ -16,8 +11,10 @@
         </batchtest>
     </phpunit>
 
-    <target name="build">
-        <echo msg="Começou"/>
-    </target>
+    <phplint haltonfailure="true">
+        <fileset dir=".">
+            <include name="app/*.php"></include>
+        </fileset>
+    </phplint>
 
 </project>
