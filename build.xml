@@ -65,19 +65,10 @@
     </target>
     
     <!-- = PHPUnit = -->
-    <!-- <target name="phpunit">
+    <target name="phpunit">
         <echo msg="Running unit tests in ${dir-tests} ..." />
         <exec command="vendor/bin/phpunit" logoutput="true" escape="false" />
-    </target> -->
-    <target name="phpunit" description="Executa a suíte de testes">
-       <phpunit2 haltonfailure="true" haltonerror="true">
-           <batchtest>
-               <fileset dir="../test">
-                   <include name="*_U_*.php"/>
-               </fileset>
-           </batchtest>
-       </phpunit2>
-   </target>
+    </target>
 
     <!-- = Cópia de arquivos de Log = -->
     <target name="copylogs">
