@@ -17,4 +17,9 @@
         </fileset>
     </phplint>
 
+    
+    <target name="generateKeyLaravel">
+        <exec command="php artisan key:generate" logoutput="true" escape="false"/>
+    </target>
+
 </project>
